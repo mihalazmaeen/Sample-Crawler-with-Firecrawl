@@ -24,8 +24,8 @@ const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 // --- Main Crawl Function ---
 async function crawlSiteFromSitemap() {
-  const sitemapUrl = "https://www.octopus.com.hk/tc/home/sitemap/index.html";
-  const baseUrl = "https://www.octopus.com.hk";
+  const sitemapUrl = "Your Url Here"; // Replace with your sitemap URL
+  const baseUrl = "The Base URL Here"; // Replace with your base URL
   console.log(`🚀 Starting sitemap-based crawl for ${baseUrl}`);
 
   try {

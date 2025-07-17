@@ -1,151 +1,61 @@
-Sitemap Crawler with Retry Logic
+# Firecrawl Crawler Project README 📖
 
-This Node.js script provides a robust method for crawling a website by first parsing a sitemap page, and then systematically scraping each discovered URL. It is built to be resilient, featuring a multi-pass retry mechanism with increasing delays to handle temporary network issues or rate-limiting.
+## 🧐 General Information
 
-The content of each successfully scraped page is saved in two formats: a structured .csv file and a human-readable .pdf document.
+This repository contains the Firecrawl Crawler project. The project's main focus is to provide a tool to crawl a specified website or sitemap for content, extract it, and create structured CSV and PDF documents for each crawled page. It leverages the `@mendable/firecrawl-js` library to facilitate the crawling process and makes use of environment variables to store the API key.
 
-Key Features
+## 🎯 Goals
 
-Sitemap-Based Crawling: Instead of a blind crawl, it starts from a sitemap page to get a curated list of important URLs.
+The main goals of the Firecrawl Crawler project are:
 
-Robust Retry Logic: If a page scrape fails, the script will automatically retry up to a configurable number of times (MAX_PASSES), with an increasing delay between each attempt to improve the chances of success.
+- **Crawl efficiently**: It should follow a sitemap or crawl a website to find all relevant pages.
+- **Retry Logic**: Implement retry logic to ensure the maximum number of pages are successfully scraped.
+- **Data extraction**: Collect essential details from each page, such as URLs, titles, and main content, and save them in a standard format.
+- **Output generation**: Create CSV and PDF files for each page and save them in categorized 'output' folders.
+- **Refinable iterations**: Allow for specific configurations to refine the crawling process, exclude paths, or include certain URL patterns.
 
-Dual-Format Output: Saves scraped content as both:
+## ⌨️ Commands
 
-CSV: For easy data processing and analysis.
+The project is built with Node.js and can be executed with the following commands:
 
-PDF: For easy reading, sharing, and archiving.
+- `node index.js`: Run the main crawler script for sitemap crawling with retry logic.
+- `node index._js`: Run the refined version of the crawler script.
 
-Clean Filenames: Generates SEO-friendly "slugs" from URLs to use as filenames.
+## 🚀 Usage
 
-Secure API Key Handling: Uses a .env file to keep your Firecrawl API key secure and out of version control.
+1. Install Node.js on your machine if you haven't already.
+2. Clone the repository to your local machine.
+3. Navigate into the project directory.
+4. Install dependencies with `npm install`.
+5. Create a `.env` file at the root of the project and set the `FIRECRAWL_API_KEY` with your API key value.
+6. Execute the crawler script using `node index.js` or `node index._js`.
 
-Detailed Console Logging: Provides clear, real-time feedback on the crawling process, including which pass is running, which URL is being processed, and a final report of successes and failures.
+Please note that the `.env` file, which contains the API key, is critical to run the project but it should **never** be committed to a public repository for security reasons.
 
-How It Works
+## 🛠 Project structure
 
-The script operates in a few distinct phases:
+```
+.
+├── .env                  # Environment file to store FIRECRAWL_API_KEY
+├── index.js              # Main crawler script with retry logic and URL processing
+├── index._js             # Refined version of the main crawler script
+├── package.json          # Node project manifest file with dependencies and metadata
+└── output                # Directory will be generated during the crawling process
+    ├── csv               # CSV files for each page will be created here
+    └── pdf               # PDF files for each page will be created here
 
-Phase 1: Sitemap Fetch & URL Extraction
+1 directory, 5 files
+```
 
-It first scrapes the provided sitemap URL (sitemapUrl).
+### Detailed file and directory descriptions
 
-It then parses the returned Markdown content to extract all hyperlinks.
+- `.env`: Holds the FIRECRAWL_API_KEY necessary for authenticating API requests with Firecrawl.
+- `index.js`: Initial script containing the functionality to crawl a sitemap, retry failed attempts, and save results into CSV and PDF formats.
+- `index._js`: Final refined version of the crawler that provides enhanced path matching and optimization of the crawling process.
+- `package.json`: Includes project metadata, scripts, and dependencies such as `@mendable/firecrawl-js`, `dotenv`, and `pdfkit`.
 
-It filters these links to keep only the ones that belong to the target domain (baseUrl).
+The `output` folder, along with its subdirectories `csv` and `pdf`, will be dynamically created when running the scripts and are not part of the static project structure.
 
-Phase 2: Multi-Pass Crawling with Retries
+## 📝 Note
 
-The script enters a loop that will run for a maximum of MAX_PASSES (e.g., 3 passes).
-
-On each pass:
-
-It attempts to scrape every URL remaining in its "to-do" list.
-
-A delay is enforced between each request to be respectful to the target server. This delay increases with each subsequent pass.
-
-If a scrape is successful, the content is processed and saved, and the URL is removed from the list.
-
-If a scrape fails (due to a network error, timeout, or empty response), the URL is added to a temporary "failed" list.
-
-At the end of a pass, the list of failed URLs becomes the new "to-do" list for the next pass.
-
-Final Report
-
-After all passes are complete, the script prints a summary report detailing the number of successfully saved pages and listing any URLs that permanently failed after all retry attempts.
-
-Prerequisites
-
-Node.js (v18.x or later recommended)
-
-A Firecrawl API Key. Firecrawl offers a generous free tier to get started.
-
-Setup and Installation
-
-Clone the repository:
-
-
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
-
-
-Install the dependencies:
-
-
-npm install
-
-
-Create the environment file:
-Create a new file named .env in the root of the project directory.
-
-Configuration: The .env File
-
-This project uses the dotenv package to manage environment variables. This is the standard way to handle sensitive information like API keys without committing them to your repository.
-
-Inside your newly created .env file, add the following line:
-
-
-FIRECRAWL_API_KEY="YOUR_API_KEY_HERE"
-
-
-Replace YOUR_API_KEY_HERE with your actual Firecrawl API key. The .gitignore file in this repository should already be configured to ignore .env files, ensuring your key remains private.
-
-Running the Script
-
-Once you have set up your .env file, you can run the crawler with the following command:
-
-
-node index.js
-
-
-You will see detailed output in your terminal as the script fetches the sitemap, processes each URL, and saves the files.
-
-Output
-
-After the script finishes, you will find a new output directory with the following structure:
-
-output/
-├── csv/
-│   ├── tc-home-sitemap-index.csv
-│   ├── tc-about-octopus-corporate-profile.csv
-│   └── ... and other csv files
-└── pdf/
-    ├── tc-home-sitemap-index.pdf
-    ├── tc-about-octopus-corporate-profile.pdf
-    └── ... and other pdf files
-
-
-The csv/ folder contains one .csv file per scraped page.
-
-The pdf/ folder contains one .pdf file per scraped page.
-
-Customization
-
-You can easily adapt the script for your own needs by modifying the configuration variables at the top of index.js:
-
-Generated javascript
-// --- Configuration ---
-const firecrawlApiKey = process.env.FIRECRAWL_API_KEY;
-// ...
-
-// --- NEW: Configuration for Retry Logic ---
-const MAX_PASSES = 3; // Total attempts: 1 initial + 2 retries
-const BASE_DELAY_MS = 1500; // 1.5 seconds, will increase on each pass
-
-// ...
-
-// --- Main Crawl Function ---
-async function crawlSiteFromSitemap() {
-  const sitemapUrl = "https://www.example.com/sitemap"; // CHANGE THIS
-  const baseUrl = "https://www.example.com";             // CHANGE THIS
-  //...
-}
-
-
-sitemapUrl: The URL of the sitemap page you want to crawl.
-
-baseUrl: The root domain of your target website, used to filter out external links.
-
-MAX_PASSES: The total number of times the script will attempt to scrape a failing URL.
-
-BASE_DELAY_MS: The initial delay (in milliseconds) between scrape requests. This delay is multiplied by the pass number on subsequent retries.
+This README was created with the heart by Lyo and Lemos in a creative way. Happy crawling! 🕷️💖
