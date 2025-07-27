@@ -56,6 +56,3 @@ Please note that the `.env` file, which contains the API key, is critical to run
 
 The `output` folder, along with its subdirectories `csv` and `pdf`, will be dynamically created when running the scripts and are not part of the static project structure.
 
-## 📝 Note
-
-This README was created with the heart by Lyo and Lemos in a creative way. Happy crawling! 🕷️💖
