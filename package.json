@@ -3,16 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module", 
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Mihal MD Azmaeen",
   "license": "ISC",
   "dependencies": {
     "@mendable/firecrawl-js": "^0.0.28",
     "dotenv": "^16.4.5",
-    "pdfkit": "^0.15.0"
+    "pdfkit": "^0.17.1",
+    "zod": "^3.25.76"
   }
 }
